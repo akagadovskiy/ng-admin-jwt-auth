@@ -55,5 +55,5 @@ ngAdminJWTAuthConfigurator.setCustomAuthHeader({
 </ul>
 
 <h3>Contribution</h3>
-1) make install
+1) make install <br>
 2) make run - runs browserify build and watcher
