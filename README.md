@@ -2,8 +2,8 @@
 Small module that allows to use JWT authentication with ng-admin.
 
 <h3>Usage example:</h3>
-1) Include .js file to your index.html: 
-2) Include module in your application:<br>
+1) Include .js file to your index.html <br>
+2) Include module in your application<br>
 <pre> var app = angular.module('myApp', ['ng-admin', 'ng-admin.jwt-auth']);</pre>
 3) Set full url to your authorization point: 
 <pre>
@@ -57,3 +57,8 @@ ngAdminJWTAuthConfigurator.setCustomAuthHeader({
 <h3>Contribution</h3>
 1) make install <br>
 2) make run - runs browserify build and watcher
+<h2>TODO:</h2>
+<ul>
+<li>Create roles configuration in ng-admin module</li>
+<li>Integrate role-based system to ng-admin.jwt-auth</li>
+</ul>
