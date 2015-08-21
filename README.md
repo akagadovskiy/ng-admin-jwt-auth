@@ -45,4 +45,10 @@ ngAdminJWTAuthConfigurator.setCustomAuthHeader({
 
 </pre>
   </li>
+  <li>
+  	ngAdminJWTAuthConfigurator.setLoginSuccessCallback(callback) - adds callback that fires on successfull 			authentication with preserving default authentication proccess. Note that it's just <b>adds</b>, not replaces behaviour
+  </li>
+  	ngAdminJWTAuthConfigurator.setLoginErrorCallback(callback) - adds error callback
+  <li>
+  </ll>
 </ul>
