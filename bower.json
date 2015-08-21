@@ -1,39 +1,39 @@
-{
-	"name": "ng-admin.jwt-auth",
-	"version": "0.0.1",
-	"authors": [
-		"Alexander Kagadovskiy <a.kagadovskiy@gmail.com>"
-	],
-	"description": "Small module that allows to use JWT authentication with ng-admin",
-	"main": "build/ng-admin.jwt-auth.min.js",
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/akagadovskiy/ng-admin-jwt-auth.git"
-	}
-	"dependencies": {
-		"angular-jwt": "~0.0.9"
-	},
-	"devDependencies": {
-		"browserify": "latest",
-		"watchify": "latest",
-		"grunt": "~0.4.5",
-		"grunt-browserify": "latest",
-		"grunt-contrib-watch": "latest",
-		"grunt-contrib-uglify": "latest"
-	},
-	"keywords": [
-		"ng-admin",
-		"auth",
-		"ng-admin",
-		"authentication"
-	],
-		"license": "MIT",
-		"ignore": [
-		"**/.*",
-		"node_modules",
-		"bower_components",
-		"public/bower_components",
-		"test",
-		"tests"
-	]
+﻿{
+  "name": "ng-admin.jwt-auth",
+  "version": "0.0.1",
+  "authors": [
+    "Alexander Kagadovskiy <a.kagadovskiy@gmail.com>"
+  ],
+  "description": "Small module that allows to use JWT authentication with ng-admin",
+  "main": "build/ng-admin.jwt-auth.min.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/akagadovskiy/ng-admin-jwt-auth.git"
+  },
+  "dependencies": {
+    "angular-jwt": "~0.0.9"
+  },
+  "devDependencies": {
+    "browserify": "latest",
+    "watchify": "latest",
+    "grunt": "~0.4.5",
+    "grunt-browserify": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-contrib-uglify": "latest"
+  },
+  "keywords": [
+    "ng-admin",
+    "auth",
+    "ng-admin",
+    "authentication"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ]
 }

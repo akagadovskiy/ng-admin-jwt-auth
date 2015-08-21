@@ -1,17 +1,35 @@
 {
-	"name": "ng-admin.jwt-auth",
-	"version": "0.0.1",
-	"author": "Alex Kagadovsky",
-	"description": "Small module that allows to use JWT authentication with ng-admin",
-	"dependencies": {
-		"angular-jwt": "~0.0.9"
-	},
-	"devDependencies": {
-		"browserify": "latest",
-		"watchify": "latest",
-		"grunt": "~0.4.5",
-		"grunt-browserify": "latest",
-		"grunt-contrib-watch": "latest",
-		"grunt-contrib-uglify": "latest"
-	}
+  "name": "ng-admin.jwt-auth",
+  "version": "0.0.1",
+  "description": "Small module that allows to use JWT authentication with ng-admin",
+  "main": "Gruntfile.js",
+  "dependencies": {
+	"angular-jwt": "^0.0.9"
+  },
+  "devDependencies": {
+	"grunt-browserify": "^4.0.0",
+    "browserify": "^11.0.1",
+    "grunt": "^0.4.5",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "watchify": "^3.3.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akagadovskiy/ng-admin-jwt-auth.git"
+  },
+  "keywords": [
+    "ng-admin",
+    "auth",
+    "authentication"
+  ],
+  "author": "Alex Kagadovsky",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akagadovskiy/ng-admin-jwt-auth/issues"
+  },
+  "homepage": "https://github.com/akagadovskiy/ng-admin-jwt-auth#readme"
 }
