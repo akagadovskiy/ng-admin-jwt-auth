@@ -48,7 +48,12 @@ ngAdminJWTAuthConfigurator.setCustomAuthHeader({
   <li>
   	ngAdminJWTAuthConfigurator.setLoginSuccessCallback(callback) - adds callback that fires on successfull 			authentication with preserving default authentication proccess. Note that it's just <b>adds</b>, not replaces behaviour
   </li>
-  	ngAdminJWTAuthConfigurator.setLoginErrorCallback(callback) - adds error callback
+
   <li>
+  	ngAdminJWTAuthConfigurator.setLoginErrorCallback(callback) - adds error callback
   </ll>
 </ul>
+
+<h3>Contribution</h3>
+1) make install
+2) make run - runs browserify build and watcher
