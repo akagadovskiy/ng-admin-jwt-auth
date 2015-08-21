@@ -1,7 +1,7 @@
 # ng-admin-jwt-auth
 Small module that allows to use JWT authentication with ng-admin.
 
-Usage example:<br>
+<h3>Usage example:</h3>
 1) Include .js file to your index.html: 
 2) Include module in your application:<br>
 <pre> var app = angular.module('myApp', ['ng-admin', 'ng-admin.jwt-auth']);</pre>
@@ -45,4 +45,15 @@ ngAdminJWTAuthConfigurator.setCustomAuthHeader({
 
 </pre>
   </li>
+  <li>
+  	ngAdminJWTAuthConfigurator.setLoginSuccessCallback(callback) - adds callback that fires on successfull 			authentication with preserving default authentication proccess. Note that it's just <b>adds</b>, not replaces behaviour
+  </li>
+
+  <li>
+  	ngAdminJWTAuthConfigurator.setLoginErrorCallback(callback) - adds error callback
+  </ll>
 </ul>
+
+<h3>Contribution</h3>
+1) make install <br>
+2) make run - runs browserify build and watcher
