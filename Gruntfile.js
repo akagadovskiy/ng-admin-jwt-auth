@@ -9,7 +9,10 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 	browserify: {
 		main: {
-			src: 'js/*.js',
+			src: [
+				'node_modules/angular-jwt/dist/angular-jwt.min.js',
+				'js/*.js'
+			],
 			dest: 'build/<%= pkg.name %>.js'
 		}
 	},
