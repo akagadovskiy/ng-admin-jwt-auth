@@ -1,0 +1,17 @@
+{
+	"name": "ng-admin.jwt-auth",
+	"version": "0.0.1",
+	"author": "Alex Kagadovsky",
+	"description": "Small module that allows to use JWT authentication with ng-admin",
+	"dependencies": {
+		"angular-jwt": "~0.0.9"
+	},
+	"devDependencies": {
+		"browserify": "latest",
+		"watchify": "latest",
+		"grunt": "~0.4.5",
+		"grunt-browserify": "latest",
+		"grunt-contrib-watch": "latest",
+		"grunt-contrib-uglify": "latest"
+	}
+}
