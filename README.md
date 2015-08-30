@@ -1,6 +1,7 @@
 # ng-admin-jwt-auth
 Small module that allows to use JWT authentication with ng-admin.
-
+<h3>Demo</h3>
+https://github.com/akagadovskiy/ng-admin-jwt-auth-demoapp
 <h3>Usage example:</h3>
 1) Include .js file to your index.html <br>
 2) Include module in your application<br>
