@@ -55,7 +55,7 @@ ngAdminJWTAuth.run(['$q', 'Restangular', 'ngAdminJWTAuthService', '$http', '$loc
 				if (customAuthHeader) {
 					$http.defaults.headers.common[customAuthHeader.name] = customAuthHeader.template.replace('{{token}}', localStorage.userToken);
 				} else {
-					$http.defaults.headers.common.Authorization = 'Basic ' + localstorage.userToken;
+					$http.defaults.headers.common.Authorization = 'Basic ' + localStorage.userToken;
 				}
 		}
 	});
