@@ -1,6 +1,9 @@
 var ngAdminJWTAuthConfiguratorProvider = function() {
-	var authConfigs = {};
-	
+	var authConfigs = {
+		_nonProtectedStates: ['login']
+	};
+
+
 	this.setJWTAuthURL = function(url){
 		authConfigs._authUrl = url;
 	};
@@ -20,6 +23,10 @@ var ngAdminJWTAuthConfiguratorProvider = function() {
 	this.setCustomAuthHeader = function(obj) {
 		return authConfigs._customAuthHeader = obj;
 	}
+
+	this.setNonProtectedStates = function(states) {
+		authConfigs._nonProtectedStates = authConfigs._nonProtectedStates.contat(states);
+	}
 	
 	this.$get = function() {
 		return {
@@ -37,6 +44,9 @@ var ngAdminJWTAuthConfiguratorProvider = function() {
 			},
 			getCustomAuthHeader: function() {
 				return authConfigs._customAuthHeader;
+			},
+			getNonProtectedStates: function() {
+				return authConfigs._nonProtectedStates;
 			}
 		};
 	}
