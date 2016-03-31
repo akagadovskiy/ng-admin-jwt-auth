@@ -48,8 +48,11 @@ ngAdminJWTAuthService.$inject = ['$http', 'jwtHelper', 'ngAdminJWTAuthConfigurat
 module.exports = ngAdminJWTAuthService;
 },{}],2:[function(require,module,exports){
 var ngAdminJWTAuthConfiguratorProvider = function() {
-	var authConfigs = {};
-	
+	var authConfigs = {
+		_nonProtectedStates: ['login']
+	};
+
+
 	this.setJWTAuthURL = function(url){
 		authConfigs._authUrl = url;
 	};
@@ -71,8 +74,7 @@ var ngAdminJWTAuthConfiguratorProvider = function() {
 	}
 
 	this.setNonProtectedStates = function(states) {
-		states.push('login');
-		authConfigs._nonProtectedStates = states;
+		authConfigs._nonProtectedStates = authConfigs._nonProtectedStates.contat(states);
 	}
 	
 	this.$get = function() {
