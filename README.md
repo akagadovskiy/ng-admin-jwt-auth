@@ -63,3 +63,7 @@ ngAdminJWTAuthConfigurator.setCustomAuthHeader({
 <li>Create roles configuration in ng-admin module</li>
 <li>Integrate role-based system to ng-admin.jwt-auth</li>
 </ul>
+
+<h3> Change Log</h3>
+### Added: 
+1) ngAdminJWTAuthConfigurator.setNonProtectedStates(['custom/route']) - you can set up routes that are allowed to use without authentication. <b>Important</b>: you can use only custom urls. If you want to use CRUD url of some entity like tags/show/5 it will not work. 
