@@ -37,7 +37,8 @@ ngAdminJWTAuth.run(['$q', 'Restangular', 'ngAdminJWTAuthService', '$http', '$loc
 
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 		if (!ngAdminJWTAuthService.isAuthenticated()) {
-			if (toState.name != 'login') {
+			var nonProtectedStates = ngAdminJWTAuthConfigurator.getNonProtectedStates();
+			if (nonProtectedStates.indexOf(toState.name) == -1) {
 				event.preventDefault();
 				var changeState = $state.go('login');
 				changeState.then(function(){
