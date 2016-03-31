@@ -1,5 +1,7 @@
 var ngAdminJWTAuthConfiguratorProvider = function() {
-	var authConfigs = {};
+	var authConfigs = {
+		_nonProtectedStates: ['login']
+	};
 	
 	this.setJWTAuthURL = function(url){
 		authConfigs._authUrl = url;
