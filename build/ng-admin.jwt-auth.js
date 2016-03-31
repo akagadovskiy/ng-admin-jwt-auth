@@ -48,7 +48,9 @@ ngAdminJWTAuthService.$inject = ['$http', 'jwtHelper', 'ngAdminJWTAuthConfigurat
 module.exports = ngAdminJWTAuthService;
 },{}],2:[function(require,module,exports){
 var ngAdminJWTAuthConfiguratorProvider = function() {
-	var authConfigs = {};
+	var authConfigs = {
+		_nonProtectedStates: ['login']
+	};
 	
 	this.setJWTAuthURL = function(url){
 		authConfigs._authUrl = url;
@@ -69,6 +71,11 @@ var ngAdminJWTAuthConfiguratorProvider = function() {
 	this.setCustomAuthHeader = function(obj) {
 		return authConfigs._customAuthHeader = obj;
 	}
+
+	this.setNonProtectedStates = function(states) {
+		states.push('login');
+		authConfigs._nonProtectedStates = states;
+	}
 	
 	this.$get = function() {
 		return {
@@ -86,6 +93,9 @@ var ngAdminJWTAuthConfiguratorProvider = function() {
 			},
 			getCustomAuthHeader: function() {
 				return authConfigs._customAuthHeader;
+			},
+			getNonProtectedStates: function() {
+				return authConfigs._nonProtectedStates;
 			}
 		};
 	}
@@ -176,7 +186,8 @@ ngAdminJWTAuth.run(['$q', 'Restangular', 'ngAdminJWTAuthService', '$http', '$loc
 
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
 		if (!ngAdminJWTAuthService.isAuthenticated()) {
-			if (toState.name != 'login') {
+			var nonProtectedStates = ngAdminJWTAuthConfigurator.getNonProtectedStates();
+			if (nonProtectedStates.indexOf(toState.name) == -1) {
 				event.preventDefault();
 				var changeState = $state.go('login');
 				changeState.then(function(){
@@ -194,7 +205,7 @@ ngAdminJWTAuth.run(['$q', 'Restangular', 'ngAdminJWTAuthService', '$http', '$loc
 				if (customAuthHeader) {
 					$http.defaults.headers.common[customAuthHeader.name] = customAuthHeader.template.replace('{{token}}', localStorage.userToken);
 				} else {
-					$http.defaults.headers.common.Authorization = 'Basic ' + localstorage.userToken;
+					$http.defaults.headers.common.Authorization = 'Basic ' + localStorage.userToken;
 				}
 		}
 	});
