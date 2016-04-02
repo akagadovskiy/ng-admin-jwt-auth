@@ -8,6 +8,7 @@ var ngAdminJWTAuthService = function($http, jwtHelper, ngAdminJWTAuthConfigurato
 			return $http({
 				url: url,
 				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
 				data: data
 			}).then(function(response) {
 				var payload = jwtHelper.decodeToken(response.data.token);
