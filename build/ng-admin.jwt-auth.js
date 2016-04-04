@@ -165,6 +165,10 @@ ngAdminJWTAuth.config(['$stateProvider', '$httpProvider', function ($stateProvid
 			if (!template) {
 				return require('./loginTemplate');
 			}
+
+			if (!template.endsWith('.html')) {
+				return template;
+			}
 			
 			return $http.get(template).then(function(response){
 				return response.data;
