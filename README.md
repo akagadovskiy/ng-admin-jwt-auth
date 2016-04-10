@@ -15,7 +15,7 @@ https://github.com/akagadovskiy/ng-admin-jwt-auth-demoapp
         ...
 </pre>
 
-That's all, athorization configured!
+That's all, authorization configured!
 
 API reference:
 <ul>
