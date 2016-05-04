@@ -64,7 +64,23 @@ ngAdminJWTAuth.run(['$q', 'Restangular', 'ngAdminJWTAuthService', '$http', '$loc
 				}
 		}
 	});
-	
+
+	Restangular.addResponseInterceptor(function(data, operation, what, url, response) {
+		if (ngAdminJWTAuthService.isAuthenticated()) {
+	        	var token;
+			var customAuthHeader = ngAdminJWTAuthConfigurator.getCustomAuthHeader();
+			if (customAuthHeader && response.headers(customAuthHeader.name)) {
+	          		token = response.headers(customAuthHeader.name);
+	          		token = token.replace(customAuthHeader.template.replace('{{token}}', ''), '');
+			} else if(response.headers('Authorization')) {
+	          		token = response.headers('Authorization');
+	          		token = token.replace('Basic ', '');
+			}
+		        if (token) {
+		        	localStorage.userToken = token;
+		        }
+		}
+	  });
 }]);
 
 
