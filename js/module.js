@@ -80,6 +80,7 @@ ngAdminJWTAuth.run(['$q', 'Restangular', 'ngAdminJWTAuthService', '$http', '$loc
 		        	localStorage.userToken = token;
 		        }
 		}
+		return data;
 	  });
 }]);
 
