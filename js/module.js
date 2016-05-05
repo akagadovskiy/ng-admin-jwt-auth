@@ -7,11 +7,11 @@ ngAdminJWTAuth.config(['$stateProvider', '$httpProvider', function ($stateProvid
 	$stateProvider.state('login', {
 		parent: '',
 		url: '/login',
-		controller: 'loginController', 
+		controller: 'loginController',
 		controllerAs: 'loginController',
 		templateProvider: ['ngAdminJWTAuthConfigurator', '$http', 'notification', function(configurator, $http, notification) {
 			var template = configurator.getCustomLoginTemplate();
-			
+
 			if (!template) {
 				return require('./loginTemplate');
 			}
@@ -19,7 +19,7 @@ ngAdminJWTAuth.config(['$stateProvider', '$httpProvider', function ($stateProvid
 			if (!template.endsWith('.html')) {
 				return template;
 			}
-			
+
 			return $http.get(template).then(function(response){
 				return response.data;
 			}, function(response){
@@ -27,14 +27,14 @@ ngAdminJWTAuth.config(['$stateProvider', '$httpProvider', function ($stateProvid
 			});
 		}],
 	});
-	
+
 	$stateProvider.state('logout', {
 		parent: '',
 		url: '/logout',
-		controller: 'logoutController', 
-		controllerAs: 'logoutController',	
-	});	
-	
+		controller: 'logoutController',
+		controllerAs: 'logoutController',
+	});
+
 }]);
 
 ngAdminJWTAuth.run(['$q', 'Restangular', 'ngAdminJWTAuthService', '$http', '$location', '$state', '$rootScope', 'ngAdminJWTAuthConfigurator', function($q, Restangular, ngAdminJWTAuthService, $http, $location, $state, $rootScope ,ngAdminJWTAuthConfigurator){
@@ -53,7 +53,7 @@ ngAdminJWTAuth.run(['$q', 'Restangular', 'ngAdminJWTAuthService', '$http', '$loc
 		}
 		return true;
 	});
-	
+
 	Restangular.addFullRequestInterceptor(function(response, deferred, responseHandler) {
 		if (ngAdminJWTAuthService.isAuthenticated()) {
 				var customAuthHeader = ngAdminJWTAuthConfigurator.getCustomAuthHeader();
@@ -65,23 +65,26 @@ ngAdminJWTAuth.run(['$q', 'Restangular', 'ngAdminJWTAuthService', '$http', '$loc
 		}
 	});
 
-	Restangular.addResponseInterceptor(function(data, operation, what, url, response) {
-		if (ngAdminJWTAuthService.isAuthenticated()) {
-	        	var token;
-			var customAuthHeader = ngAdminJWTAuthConfigurator.getCustomAuthHeader();
-			if (customAuthHeader && response.headers(customAuthHeader.name)) {
-	          		token = response.headers(customAuthHeader.name);
-	          		token = token.replace(customAuthHeader.template.replace('{{token}}', ''), '');
-			} else if(response.headers('Authorization')) {
-	          		token = response.headers('Authorization');
-	          		token = token.replace('Basic ', '');
-			}
-		        if (token) {
-		        	localStorage.userToken = token;
-		        }
-		}
-		return data;
-	  });
+  if(ngAdminJWTAuthConfigurator.getCheckEveryResponseForAuthHeader()) {
+    Restangular.addResponseInterceptor(function(data, operation, what, url, response) {
+      if (ngAdminJWTAuthService.isAuthenticated()) {
+              var token;
+        var customAuthHeader = ngAdminJWTAuthConfigurator.getCustomAuthHeader();
+        if (customAuthHeader && response.headers(customAuthHeader.name)) {
+                  token = response.headers(customAuthHeader.name);
+                  token = token.replace(customAuthHeader.template.replace('{{token}}', ''), '');
+        } else if(response.headers('Authorization')) {
+                  token = response.headers('Authorization');
+                  token = token.replace('Basic ', '');
+        }
+              if (token) {
+                localStorage.userToken = token;
+              }
+      }
+      return data;
+    });
+  }
+
 }]);
 
 
