@@ -52,23 +52,23 @@ var ngAdminJWTAuthConfiguratorProvider = function() {
 	var authConfigs = {
 		_nonProtectedStates: ['login']
 	};
-	
+
 	this.setJWTAuthURL = function(url){
 		authConfigs._authUrl = url;
 	};
-	
+
 	this.setCustomLoginTemplate = function(url) {
 		authConfigs._customLoginTemplate = url;
 	}
-	
+
 	this.setLoginSuccessCallback = function(callback) {
 		authConfigs._loginSuccessCallback = callback;
-	}		
+	}
 
 	this.setLoginErrorCallback = function(callback) {
 		authConfigs._loginErrorCallback = callback;
 	}
-	
+
 	this.setCustomAuthHeader = function(obj) {
 		return authConfigs._customAuthHeader = obj;
 	}
@@ -78,6 +78,10 @@ var ngAdminJWTAuthConfiguratorProvider = function() {
 		authConfigs._nonProtectedStates = states;
 	}
 	
+  this.setCheckEveryResponseForAuthHeader = function() {
+    authConfigs._checkEveryResponseForAuthHeader = true;
+  }
+
 	this.$get = function() {
 		return {
 			getAuthURL: function(){
@@ -97,13 +101,17 @@ var ngAdminJWTAuthConfiguratorProvider = function() {
 			},
 			getNonProtectedStates: function() {
 				return authConfigs._nonProtectedStates;
-			}
+			},
+      getCheckEveryResponseForAuthHeader: function() {
+				return !!authConfigs._checkEveryResponseForAuthHeader;
+			},
 		};
 	}
-	
+
 };
 
 module.exports = ngAdminJWTAuthConfiguratorProvider;
+
 },{}],3:[function(require,module,exports){
 var loginController = function($scope, $rootScope, ngAdminJWTAuthService, ngAdminJWTAuthConfigurator, notification, $location) {
 	this.$scope = $scope;
@@ -157,11 +165,11 @@ ngAdminJWTAuth.config(['$stateProvider', '$httpProvider', function ($stateProvid
 	$stateProvider.state('login', {
 		parent: '',
 		url: '/login',
-		controller: 'loginController', 
+		controller: 'loginController',
 		controllerAs: 'loginController',
 		templateProvider: ['ngAdminJWTAuthConfigurator', '$http', 'notification', function(configurator, $http, notification) {
 			var template = configurator.getCustomLoginTemplate();
-			
+
 			if (!template) {
 				return require('./loginTemplate');
 			}
@@ -169,7 +177,7 @@ ngAdminJWTAuth.config(['$stateProvider', '$httpProvider', function ($stateProvid
 			if (!template.endsWith('.html')) {
 				return template;
 			}
-			
+
 			return $http.get(template).then(function(response){
 				return response.data;
 			}, function(response){
@@ -177,14 +185,14 @@ ngAdminJWTAuth.config(['$stateProvider', '$httpProvider', function ($stateProvid
 			});
 		}],
 	});
-	
+
 	$stateProvider.state('logout', {
 		parent: '',
 		url: '/logout',
-		controller: 'logoutController', 
-		controllerAs: 'logoutController',	
-	});	
-	
+		controller: 'logoutController',
+		controllerAs: 'logoutController',
+	});
+
 }]);
 
 ngAdminJWTAuth.run(['$q', 'Restangular', 'ngAdminJWTAuthService', '$http', '$location', '$state', '$rootScope', 'ngAdminJWTAuthConfigurator', function($q, Restangular, ngAdminJWTAuthService, $http, $location, $state, $rootScope ,ngAdminJWTAuthConfigurator){
@@ -203,7 +211,7 @@ ngAdminJWTAuth.run(['$q', 'Restangular', 'ngAdminJWTAuthService', '$http', '$loc
 		}
 		return true;
 	});
-	
+
 	Restangular.addFullRequestInterceptor(function(response, deferred, responseHandler) {
 		if (ngAdminJWTAuthService.isAuthenticated()) {
 				var customAuthHeader = ngAdminJWTAuthConfigurator.getCustomAuthHeader();
@@ -214,7 +222,27 @@ ngAdminJWTAuth.run(['$q', 'Restangular', 'ngAdminJWTAuthService', '$http', '$loc
 				}
 		}
 	});
-	
+
+  if(ngAdminJWTAuthConfigurator.getCheckEveryResponseForAuthHeader()) {
+    Restangular.addResponseInterceptor(function(data, operation, what, url, response) {
+      if (ngAdminJWTAuthService.isAuthenticated()) {
+              var token;
+        var customAuthHeader = ngAdminJWTAuthConfigurator.getCustomAuthHeader();
+        if (customAuthHeader && response.headers(customAuthHeader.name)) {
+                  token = response.headers(customAuthHeader.name);
+                  token = token.replace(customAuthHeader.template.replace('{{token}}', ''), '');
+        } else if(response.headers('Authorization')) {
+                  token = response.headers('Authorization');
+                  token = token.replace('Basic ', '');
+        }
+              if (token) {
+                localStorage.userToken = token;
+              }
+      }
+      return data;
+    });
+  }
+
 }]);
 
 
@@ -224,6 +252,7 @@ ngAdminJWTAuth.controller('logoutController', require('./logoutController'));
 ngAdminJWTAuth.provider('ngAdminJWTAuthConfigurator', require('./configuratorProvider'));
 
 ngAdminJWTAuth.service('ngAdminJWTAuthService', require('./authService'));
+
 },{"./authService":1,"./configuratorProvider":2,"./loginController":3,"./loginTemplate":4,"./logoutController":5}],7:[function(require,module,exports){
 !function(){angular.module("angular-jwt",["angular-jwt.interceptor","angular-jwt.jwt"]),angular.module("angular-jwt.interceptor",[]).provider("jwtInterceptor",function(){this.urlParam=null,this.authHeader="Authorization",this.authPrefix="Bearer ",this.tokenGetter=function(){return null};var e=this;this.$get=["$q","$injector","$rootScope",function(r,t,a){return{request:function(a){if(a.skipAuthorization)return a;if(e.urlParam){if(a.params=a.params||{},a.params[e.urlParam])return a}else if(a.headers=a.headers||{},a.headers[e.authHeader])return a;var n=r.when(t.invoke(e.tokenGetter,this,{config:a}));return n.then(function(r){return r&&(e.urlParam?a.params[e.urlParam]=r:a.headers[e.authHeader]=e.authPrefix+r),a})},responseError:function(e){return 401===e.status&&a.$broadcast("unauthenticated",e),r.reject(e)}}}]}),angular.module("angular-jwt.jwt",[]).service("jwtHelper",function(){this.urlBase64Decode=function(e){var r=e.replace(/-/g,"+").replace(/_/g,"/");switch(r.length%4){case 0:break;case 2:r+="==";break;case 3:r+="=";break;default:throw"Illegal base64url string!"}return decodeURIComponent(escape(window.atob(r)))},this.decodeToken=function(e){var r=e.split(".");if(3!==r.length)throw new Error("JWT must have 3 parts");var t=this.urlBase64Decode(r[1]);if(!t)throw new Error("Cannot decode the token");return JSON.parse(t)},this.getTokenExpirationDate=function(e){var r;if(r=this.decodeToken(e),"undefined"==typeof r.exp)return null;var t=new Date(0);return t.setUTCSeconds(r.exp),t},this.isTokenExpired=function(e,r){var t=this.getTokenExpirationDate(e);return r=r||0,null===t?!1:!(t.valueOf()>(new Date).valueOf()+1e3*r)}})}();
 },{}]},{},[7,1,2,3,4,5,6]);
