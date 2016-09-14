@@ -127,7 +127,7 @@ loginController.prototype.login = function() {
 	
 	var success = this.ngAdminJWTAuthConfigurator.getLoginSuccessCallback() || function(response) {
 		that.notification.log(response.data.message, { addnCls: 'humane-flatty-success' });
-		that.$location.path('/');
+		that.$location.path('/dashboard');
 	};		
 	var error = this.ngAdminJWTAuthConfigurator.getLoginErrorCallback() || function(response) {
 		that.notification.log(response.data.message, { addnCls: 'humane-flatty-error' });
