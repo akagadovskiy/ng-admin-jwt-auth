@@ -1,6 +1,6 @@
 {
   "name": "ng-admin.jwt-auth",
-  "version": "0.5.0",
+  "version": "0.4.0",
   "description": "Small module that allows to use JWT authentication with ng-admin",
   "main": "Gruntfile.js",
   "dependencies": {
